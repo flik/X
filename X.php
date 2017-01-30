@@ -78,8 +78,9 @@
 	 
 	 
 	 public static function manage($tbl) {
-		self::$tbl = $tbl; 
-		 $sql = 'DESCRIBE '.$tbl;
+			self::$tbl = $tbl; 
+			self::setTable();
+			$sql = 'DESCRIBE '.$tbl;
 			try{ 
 					  
 				$stmt = self::$conn->prepare($sql); 
@@ -100,9 +101,10 @@
 			{ 
 				echo $sql . "<br>" . $e->getMessage();
 			}
+			
 	 }
 	 
-	 public static function setTable($arr){
+	 public static function setTable($arr=''){
 		
 		if(self::$conn->query('SHOW TABLES LIKE \''.self::$tbl.'\'')->rowCount() > 0){
 			$sql = '';
