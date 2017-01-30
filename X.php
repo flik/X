@@ -108,7 +108,7 @@
 			try{
 				// use exec() because no results are returned
 				self::$conn->exec($sql);
-				echo "Table MyGuests created successfully";
+				 
 			}
 			catch(PDOException $e)
 			{ 
@@ -119,14 +119,18 @@
 	 
 	 public static function save($arr) {
 		 
-		echo self::setTable($arr);
-		echo '<hr>';  
+		  self::setTable($arr);
+		 
 	   if(!isset($arr['id'])) 
 		 $sql = self::arrayToSql($arr);
-		else
-		 $sql = self::arrayToSql($arr,2);
+		else{
+			$result = self::load(self::$tbl,$arr['id']);
+			if($result)
+				$sql = self::arrayToSql($arr,2);
+			else
+				$sql = self::arrayToSql($arr);
+		}
 		 
-		 //echo $sql;
 		
 		try{ 
 			 self::$conn->exec($sql); 
