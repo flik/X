@@ -1,7 +1,7 @@
 # X
 X ORM
 
-require __DIR__.'/X.php';
+require '/X.php';
 
 # SETUP DATABASE
 X::setup( 'mysql:host=localhost;dbname=mydb',  $username ,  $password  );
