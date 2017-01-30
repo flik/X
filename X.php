@@ -79,6 +79,27 @@
 	 
 	 public static function manage($tbl) {
 		self::$tbl = $tbl; 
+		 $sql = 'DESCRIBE '.$tbl;
+			try{ 
+					  
+				$stmt = self::$conn->prepare($sql); 
+				$stmt->execute();
+				
+				 
+
+				// set the resulting array to associative
+				$result = $stmt->fetchAll(PDO::FETCH_COLUMN); 
+				
+				foreach($result as $v)
+					 $obj[$v] = $v;
+					 
+				$obj = (Object)$obj	;
+				return $obj;
+			}
+			catch(PDOException $e)
+			{ 
+				echo $sql . "<br>" . $e->getMessage();
+			}
 	 }
 	 
 	 public static function setTable($arr){
