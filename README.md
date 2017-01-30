@@ -3,7 +3,8 @@ X ORM
 
 require __DIR__.'/X.php';
 
-X::setup( 'mysql:host='.$dbc['host'].';dbname='.$dbc['database'],  $dbc['username'] ,  $dbc['password']  );
+# SETUP DATABASE
+X::setup( 'mysql:host=localhost;dbname=mydb',  $username ,  $password  );
 
 # SETUP TABLE FOR ADD / UPDATE / DELETE
 X::manage('users'); 
