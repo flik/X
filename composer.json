@@ -1,11 +1,19 @@
 {
-    "repositories": [
+    "name": "xorm/xorm",
+    "description": "It is simple orm solution in php",
+    "keywords": ["orm","xorm"],
+    "homepage": "https://github.com/flik/X.git",
+    "license": "MIT",
+    "authors": [
         {
-            "url": "https://github.com/flik/X.git",
-            "type": "git"
+            "name": "Mohammad Ashfaq",
+            "email": "ashfaqzp@gmail.com",
+            "homepage": "http://www.cometobiz.com",
+            "role": "Developer"
         }
     ],
     "require": {
-        "xorm/orm": "master"
+        "php": "^5.3.3 || ^7.0",
+        "another-vendor/package": "1.*"
     }
 }
