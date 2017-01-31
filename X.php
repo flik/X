@@ -41,6 +41,8 @@
 		 
 	 }
 	 
+	 //
+	 
 	 ///////////////////////////////////////////////////////////////////////////////
 	 public static function getAll($sql) {
 		 
@@ -58,16 +60,45 @@
 				echo $sql . "<br>" . $e->getMessage();
 			}
 	 }
-	 
-	 public static function load($tbl,$id) {
+	  public static function getPrimeryKey($tbl) {
+		  $id = self::getAll('SHOW KEYS FROM '.$tbl.' WHERE Key_name = "PRIMARY"');
+		  return $id[0]['Column_name'];
+		}
+		
+		
+public static function debug($v,$ex=1){
+     
+   echo '<pre>';
+   print_r($v); 
+   echo '</pre>';
+   if($ex)
+       exit;
+}
+public static function dx($v){
+   echo '*******************************<hr>';
+   print_r($v); 
+   echo '*******************************<br>';
+}
+
+
+		
+	 public static function load($tbl,$id='') {
 		 
+		 
+		 $pid = self::getPrimeryKey($tbl);
+		  
 			try{ 
-				 $sql = 'SELECT * FROM '.$tbl.' WHERE id='.$id;
+				
+				if(!empty($id))
+				  $sql = 'SELECT * FROM '.$tbl.' WHERE '.$pid.'='.$id;
+				else
+				  $sql = 'SELECT * FROM '.$tbl.' WHERE 1';
+				  
 				$stmt = self::$conn->prepare($sql); 
 				$stmt->execute();
 
 				// set the resulting array to associative
-				$result = $stmt->fetch(PDO::FETCH_ASSOC); 
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC); 
 				return $result;
 			}
 			catch(PDOException $e)
@@ -88,9 +119,7 @@
 					  
 				$stmt = self::$conn->prepare($sql); 
 				$stmt->execute();
-				
 				 
-
 				// set the resulting array to associative
 				$result = $stmt->fetchAll(PDO::FETCH_COLUMN); 
 				
@@ -170,6 +199,19 @@
 
 	 }
 	 
+	 public static function exec($sql) {
+		
+		 
+		try{ 
+			 return self::$conn->exec($sql); 
+		}
+		catch(PDOException $e)
+		{ 
+			echo $sql . "<br>" . $e->getMessage();
+		}
+		/**/
+ 	 }
+ 	 
 	 public static function update($arr,$keyVal) {
 		/*
 		echo self::setTable($arr);
@@ -191,7 +233,8 @@
  	 }
 	 
 	 public static function delete($tbl,$id) {
-		 $sql = 'DELETE FROM '.$tbl.' WHERE id='.$id;
+		 $pid = self::getPrimeryKey($tbl);
+		 $sql = 'DELETE FROM '.$tbl.' WHERE '.$pid.'='.$id;
 		try{ 
 			self::$conn->exec($sql); 
 		}
