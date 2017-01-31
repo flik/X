@@ -1,0 +1,11 @@
+{
+    "repositories": [
+        {
+            "url": "https://github.com/flik/X.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "xorm/orm": "master"
+    }
+}
