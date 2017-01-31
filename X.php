@@ -77,9 +77,12 @@
 	 }
 	 
 	 
-	 public static function manage($tbl) {
+	 public static function manage($tbl,$c=0) {
 			self::$tbl = $tbl; 
-			self::setTable();
+			
+			if($c)
+			  self::setTable();
+		 
 			$sql = 'DESCRIBE '.$tbl;
 			try{ 
 					  
@@ -99,7 +102,7 @@
 			}
 			catch(PDOException $e)
 			{ 
-				echo $sql . "<br>" . $e->getMessage();
+				echo  "<br>" . $e->getMessage();
 			}
 			
 	 }
