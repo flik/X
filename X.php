@@ -99,9 +99,7 @@ public static function dx($v){
 
 
 		
-	 public static function load($tbl,$id='') {
-		 
-		 
+	 public static function load($tbl,$id='') { 
 		 $pid = self::getPrimeryKey($tbl);
 		  
 			try{ 
