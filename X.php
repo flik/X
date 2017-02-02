@@ -185,19 +185,20 @@ public static function dx($v){
 		
 		public static function limit($start=0,$end=10) {
 		   
-		   if(!empty($end)){
+		    if(!empty($end)){
 			    self::$limitStr .= ' LIMIT '.$start.' , '.$end;
 			}else
 				self::$limitStr .= ' LIMIT '.$end;
-			return self::getResults() ;
+				
+			return self::getResults();
 		}
 		
 	  public static function where($key='',$op='',$val='') {
-		  
-		  
-		     
+		   
 		   if(!empty($val)){
+			   
 			    self::$whereStr .= ' AND ';
+			    
 			   if(is_numeric($val)) 
 				  self::$whereStr .= $key.' '.$op.' '.$val.' ';
 				else
@@ -219,9 +220,7 @@ public static function dx($v){
 	  }
 	  
 	  public static function whereOr($key='',$op='',$val='') {
-		  
-		  
-		     
+		      
 		   if(!empty($val)){
 			    self::$whereStr .= ' OR ';
 			   if(is_numeric($val)) 
@@ -248,17 +247,17 @@ public static function dx($v){
 		  
 		  try{  
 			    if(empty(self::$selectStr))
-				  self::$whereStr = 'SELECT * FROM '.self::$tbl.' WHERE ' .self::getPrimeryKey(self::$tbl) ;
+				  self::$whereStr = 'SELECT * FROM '.self::$tbl.' WHERE ' .self::getPrimeryKey(self::$tbl).self::$whereStr ;
 				else
-				  self::$whereStr = self::$selectStr.' WHERE ' .self::getPrimeryKey(self::$tbl) ;
+				  self::$whereStr = self::$selectStr.' WHERE ' .self::getPrimeryKey(self::$tbl).self::$whereStr  ;
 				
 				self::$whereStr .= ' '.self::$groupByStr;
 				self::$whereStr .= ' '.self::$orderByStr; 
 				self::$whereStr .= ' '.self::$limitStr;
 			     
 			     if(self::$debugConfig)
-			     self::dx(self::$whereStr);
-			    
+			       self::dx(self::$whereStr);
+			     
 				$stmt = self::$conn->prepare(self::$whereStr); 
 				$stmt->execute();
 
