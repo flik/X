@@ -78,15 +78,12 @@ $data = X::where('Mandatory','=',0);
 
 $data = X::orderBy('Mandatory','DESC');
 
-
 //paginate($length = 10, $current_page=1 )
 
 $data = X::paginate(20,5); 
 
-
 //$data = X::whereOr('Mandatory','=',0); //It IS FOR OR CONDITION
 
- 
 //$data = X::where(1); //IT WILL RETURN WHOLE TABLE DATA
 
 //$data = X::where(); //IT WILL RETURN WHOLE TABLE DATA

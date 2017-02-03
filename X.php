@@ -90,9 +90,9 @@ public static function debug($v,$ex=1){
        exit;
 }
 public static function dx($v){
-   echo '<hr>***** ';
-   print_r($v); 
-   echo ' ***** <br>';
+   echo '<hr><span style="color:blue;">*****</span> <span style="color:green;"> ';
+   print($v); 
+   echo ' </span><span style="color:blue;">*****</span> <br>';
 }
 
 
