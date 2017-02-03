@@ -268,9 +268,12 @@ public static function dx($v){
 			}
 	  }
 	 
-	  public static function paginate($length = 10, $start=0, $current_page=1 ){
+	  public static function paginate($length = 10,$current_page=0 ){
 		$data = self::getResults() ;
 		$result = array();
+		$start = 0;
+		if($current_page >=1)
+		  $start =  $length  * $current_page;
 		
 		if(!empty($data)){
 			$total_items = count($data);

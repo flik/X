@@ -16,6 +16,7 @@ X::save($dbc); //for save and update
 
 # REMOVE RECORD BY ID. 
 //It will find you primery coulumn auto and delete record. It does't matter primery column is id or bid.
+
 X::delete('users' ,12);
 
 # GET ALL 
@@ -25,7 +26,9 @@ $rec = X::getAll( $sql );
 
 # GET RECORD BY ID. 
 //It will find you primery coulumn auto and show record
+
 $rec = X::load('users' ,12 );
+
 X::debug($rec);
 
 # FULL DETAIL
@@ -76,7 +79,7 @@ $data = X::where('Mandatory','=',0);
 $data = X::orderBy('Mandatory','DESC');
 
 
-//paginate($length = 10, $start=0, $current_page=1 )
+//paginate($length = 10, $current_page=1 )
 
 $data = X::paginate(20,5); 
 
