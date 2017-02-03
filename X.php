@@ -50,7 +50,7 @@
 			}
 		catch(PDOException $e)
 			{
-			echo "Connection failed: " . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '." Connection failed: " . $e->getMessage();
 			}
 		 
 	 }
@@ -62,9 +62,7 @@
 		 
 			try{ 
 				//return self::$conn->query($sql, PDO::FETCH_ASSOC);
-				if(self::$debugConfig)
-			     self::dx($sql);
-			     
+				  
 				$stmt = self::$conn->prepare($sql); 
 				$stmt->execute();
 
@@ -74,7 +72,7 @@
 			}
 			catch(PDOException $e)
 			{ 
-				echo $sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 			}
 	 }
 	  public static function getPrimeryKey($tbl) {
@@ -121,7 +119,7 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo $sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 			}
 	 }
 	 
@@ -149,7 +147,7 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo  "<br>" . $e->getMessage();
+				echo  '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '."<br>" . $e->getMessage();
 			}
 			
 	 }
@@ -200,7 +198,7 @@ public static function dx($v){
 			   if(is_numeric($val)) 
 				  self::$whereStr .= $key.' '.$op.' '.$val.' ';
 				else
-				  self::$whereStr .= $key.' '.$op.' "'.$val.'" ';
+				  self::$whereStr .= $key.' '.$op.' \''.$val.'\' ';
 		   }
 		   
 		   if(empty($val) && !empty($op) && !empty($key)){
@@ -209,7 +207,7 @@ public static function dx($v){
 			    if(is_numeric($op)) 
 				self::$whereStr .= $key.' = '.$op.' ';
 				else
-				self::$whereStr .= $key.' = "'.$op.'" ';
+				self::$whereStr .= $key.' = \''.$op.'\' ';
 		  }
 		   
 		    return self::getResults() ;
@@ -224,7 +222,7 @@ public static function dx($v){
 			   if(is_numeric($val)) 
 				  self::$whereStr .= $key.' '.$op.' '.$val.' ';
 				else
-				  self::$whereStr .= $key.' '.$op.' "'.$val.'" ';
+				  self::$whereStr .= $key.' '.$op.' \''.$val.'\' ';
 		   }
 		   
 		   if(empty($val) && !empty($op) && !empty($key)){
@@ -233,7 +231,7 @@ public static function dx($v){
 			    if(is_numeric($op)) 
 				self::$whereStr .= $key.' = '.$op.' ';
 				else
-				self::$whereStr .= $key.' = "'.$op.'" ';
+				self::$whereStr .= $key.' = \''.$op.'\' ';
 		  }
 		   
 		     return self::getResults() ;
@@ -245,18 +243,19 @@ public static function dx($v){
 		  
 		  try{  
 			    if(empty(self::$selectStr))
-				  self::$whereStr = 'SELECT * FROM '.self::$tbl.' WHERE ' .self::getPrimeryKey(self::$tbl).self::$whereStr ;
+				  $sql = 'SELECT * FROM '.self::$tbl.' WHERE ' .self::getPrimeryKey(self::$tbl) ;
 				else
-				  self::$whereStr = self::$selectStr.' WHERE ' .self::getPrimeryKey(self::$tbl).self::$whereStr  ;
-				
-				self::$whereStr .= ' '.self::$groupByStr;
-				self::$whereStr .= ' '.self::$orderByStr; 
-				self::$whereStr .= ' '.self::$limitStr;
+				  $sql = self::$selectStr.' WHERE ' .self::getPrimeryKey(self::$tbl) ;
+			
+				$sql .= ' '.self::$whereStr;
+				$sql .= ' '.self::$groupByStr;
+				$sql .= ' '.self::$orderByStr; 
+				$sql .= ' '.self::$limitStr;
 			     
 			     if(self::$debugConfig)
-			       self::dx(self::$whereStr);
+			       self::dx($sql);
 			     
-				$stmt = self::$conn->prepare(self::$whereStr); 
+				$stmt = self::$conn->prepare($sql); 
 				$stmt->execute();
 
 				// set the resulting array to associative
@@ -265,7 +264,7 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo self::$whereStr . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . '<hr>' . $e->getMessage().'<hr>';
 			}
 	  }
 	 
@@ -298,7 +297,7 @@ public static function dx($v){
 			$result['pagination']['previous_link'] = $previous_link;
 			$result['pagination']['next_link'] = $next_link;
 			$result['pagination']['start'] = $start;
-			$result['items'] = $data;
+			$result['items'] = array_slice($data,$start,$length);
 		}
 		
         return $result;
@@ -336,7 +335,7 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo $sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 			}
 		}
 	 }
@@ -365,7 +364,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo $sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 		}
      
 
@@ -379,7 +378,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo $sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 		}
 		/**/
  	 }
@@ -412,7 +411,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo $sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
 		}
 	 }
 	 
