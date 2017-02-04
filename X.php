@@ -37,6 +37,18 @@
 		self::$debugConfig = null ;
 				
 	}
+	
+	public static function flush(){
+		
+		 
+		self::$tbl = null ;
+		self::$selectStr = null ;
+		self::$whereStr = null;
+		self::$whereOrStr = null;
+		 
+				
+	}
+	
 	 ///////////////////////////////////////////////////////////////////////////////
 	 public static function setup($constr, $user, $pass, $debugConfig=0) {
 		 try {
@@ -50,7 +62,7 @@
 			}
 		catch(PDOException $e)
 			{
-			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '." Connection failed: " . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span></hr> '." Connection failed: " . $e->getMessage();
 			}
 		 
 	 }
@@ -72,7 +84,7 @@
 			}
 			catch(PDOException $e)
 			{ 
-				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 			}
 	 }
 	  public static function getPrimeryKey($tbl) {
@@ -92,7 +104,7 @@ public static function debug($v,$ex=1){
 public static function dx($v){
    echo '<hr><span style="color:blue;">*****</span> <span style="color:green;"> ';
    print($v); 
-   echo ' </span><span style="color:blue;">*****</span> <br>';
+   echo ' </span><span style="color:blue;">*****</span> </hr>';
 }
 
 
@@ -102,9 +114,11 @@ public static function dx($v){
 		  
 			try{ 
 				
-				if(!empty($id))
+				if(!empty($id)){
+					
+					$id = self::escapeTags($id);
 				  $sql = 'SELECT * FROM '.$tbl.' WHERE '.$pid.'='.$id;
-				else
+				}else
 				  $sql = 'SELECT * FROM '.$tbl.' WHERE 1';
 				  
 				 if(self::$debugConfig)
@@ -119,14 +133,16 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 			}
 	 }
 	 
 	 
 	 public static function manage($tbl,$c=0) {
+			self::flush(); 
 			self::$tbl = $tbl; 
-			 
+			
+			
 			if($c)
 			  self::setTable();
 		 
@@ -147,10 +163,57 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo  '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '."<br>" . $e->getMessage();
+				echo  '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '."</hr>" . $e->getMessage();
 			}
 			
 	 }
+	 
+	 public static function escapeTags($str){
+		 
+		$sKeys 		= array('&', '"', '\'', '<', '>'  ,'%', '#', '?', '(', ')','`'); 
+        $sValues 	= array('\&', '\"', '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
+              
+		return str_replace($sKeys, $sValues , $str); 
+		 
+		   
+	 }
+	 
+	  public static function emptyX($tbl='') {
+		  
+		  if(empty($tbl))
+			return 0;
+		  $sql = 'TRUNCATE '.$tbl;
+		   
+			try{
+				// use exec() because no results are returned
+					return self::$conn->exec($sql);
+				 
+			}
+			catch(PDOException $e)
+			{ 
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
+			}
+			
+	  }
+	  
+	   public static function drop($tbl='') {
+		  
+		  if(empty($tbl))
+			return 0;
+		  $sql = 'DROP TABLE '.$tbl;
+		   
+			try{
+				// use exec() because no results are returned
+					return self::$conn->exec($sql);
+				 
+			}
+			catch(PDOException $e)
+			{ 
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
+			}
+			
+	  }
+	  
 	 
 	  public static function select($fieldsStr) {
 		   
@@ -179,12 +242,12 @@ public static function dx($v){
 			return self::getResults() ;
 		}
 		
-		public static function limit($start=0,$end=10) {
+		public static function limit($start=0,$end=0) {
 		   
 		    if(!empty($end)){
 			    self::$limitStr .= ' LIMIT '.$start.' , '.$end;
 			}else
-				self::$limitStr .= ' LIMIT '.$end;
+				self::$limitStr .= ' LIMIT '.$start;
 				
 			return self::getResults();
 		}
@@ -192,16 +255,20 @@ public static function dx($v){
 	  public static function where($key='',$op='',$val='') {
 		   
 		   if(!empty($val)){
+			   $val = self::escapeTags($val);
 			   
 			    self::$whereStr .= ' AND ';
 			    
 			   if(is_numeric($val)) 
-				  self::$whereStr .= $key.' '.$op.' '.$val.' ';
+				  self::$whereStr .= $key.' '.$op.' '. $val.' ';
 				else
 				  self::$whereStr .= $key.' '.$op.' \''.$val.'\' ';
 		   }
 		   
 		   if(empty($val) && !empty($op) && !empty($key)){
+			    $op = self::escapeTags($op);
+			    $key = self::escapeTags($key);
+			    
 			    self::$whereStr .= ' AND ';
 			    
 			    if(is_numeric($op)) 
@@ -218,6 +285,8 @@ public static function dx($v){
 	  public static function whereOr($key='',$op='',$val='') {
 		      
 		   if(!empty($val)){
+			    $val = self::escapeTags($val);
+			    
 			    self::$whereStr .= ' OR ';
 			   if(is_numeric($val)) 
 				  self::$whereStr .= $key.' '.$op.' '.$val.' ';
@@ -226,6 +295,9 @@ public static function dx($v){
 		   }
 		   
 		   if(empty($val) && !empty($op) && !empty($key)){
+			   $op = self::escapeTags($op);
+			   $key = self::escapeTags($key);
+			   
 			    self::$whereStr .= ' OR ';
 			    
 			    if(is_numeric($op)) 
@@ -338,7 +410,7 @@ public static function dx($v){
 			}
 			catch(PDOException $e)
 			{ 
-				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 			}
 		}
 	 }
@@ -346,11 +418,13 @@ public static function dx($v){
 	 public static function save($arr) {
 		 
 		  self::setTable($arr);
+		  $pid = self::getPrimeryKey(self::$tbl);
 		 
-	   if(!isset($arr['id'])) 
+		 
+	   if(!isset($arr[$pid])) 
 		 $sql = self::arrayToSql($arr);
 		else{
-			$result = self::load(self::$tbl,$arr['id']);
+			$result = self::load(self::$tbl,$arr[$pid]);
 			if($result)
 				$sql = self::arrayToSql($arr,2);
 			else
@@ -367,7 +441,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 		}
      
 
@@ -381,7 +455,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 		}
 		/**/
  	 }
@@ -401,7 +475,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo $sql . "<br>" . $e->getMessage();
+			echo $sql . "</hr>" . $e->getMessage();
 		}
 		*/
  	 }
@@ -414,7 +488,7 @@ public static function dx($v){
 		}
 		catch(PDOException $e)
 		{ 
-			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "<br>" . $e->getMessage();
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
 		}
 	 }
 	 
@@ -431,10 +505,10 @@ public static function dx($v){
 			    
 			   if(count($arr)!=$i){
 					$keys .= $k.', ';
-					$values .= '"'.$v.'", ';
+					$values .= '"'.self::escapeTags($v).'", ';
 				}else{
 					$keys .= $k.')';
-					$values .= '"'.$v.'")';
+					$values .= '"'.self::escapeTags($v).'")';
 				}
 				 
 				$i++;
@@ -445,21 +519,22 @@ public static function dx($v){
 		
 		 if($type == 2){
 			 //UPDATE `myguests` SET `firstname` = 'fa', `lastname` = 'na' WHERE `myguests`.`id` = 1;
+			 $pid = self::getPrimeryKey(self::$tbl);
 			 $sql = 'UPDATE '.self::$tbl.' SET ';
 			 foreach($arr as $k=>$v){
 					
 				   if(count($arr)!=$i){
 						$sql .= $k.'= ';
-						$sql .= '"'.$v.'", ';
+						$sql .= '"'.self::escapeTags($v).'", ';
 					}else{
 						$sql .= $k.'= ';
-						$sql .= '"'.$v.'" ';
+						$sql .= '"'.self::escapeTags($v).'" ';
 					}
 					
 					$i++;
 				}
 			 
-			 $sql .= ' WHERE id='.$arr['id'];
+			 $sql .= ' WHERE '.$pid.'='.$arr[$pid];
 		 
 		 }
 		 

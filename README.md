@@ -19,10 +19,11 @@ X::save($dbc); //for save and update
 
 X::delete('users' ,12);
 
-# GET ALL 
+# GET ALL BY CUSTOM QUERY
 $sql = 'SELECT xdata FROM `users` WHERE 1 ';
 
 $rec = X::getAll( $sql );
+
 
 # GET RECORD BY ID. 
 //It will find you primery coulumn auto and show record
@@ -31,6 +32,15 @@ $rec = X::load('users' ,12 );
 
 X::debug($rec);
 
+
+#EMPTY TABLE
+
+ X::emptyX('users');
+
+#REMOVE TABLE
+
+ X::drop('users');
+ 
 # FULL DETAIL
 // setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
 
