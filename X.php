@@ -169,11 +169,11 @@ public static function dx($v){
 	 }
 	 
 	 public static function escapeTags($str){
-		 
-		$sKeys 		= array('&', '"', '\'', '<', '>'  ,'%', '#', '?', '(', ')','`'); 
-        $sValues 	= array('\&', '\"', '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
+		 return $str;
+		//$sKeys 		= array('&',   '\'', '<', '>'  ,'%', '#', '?', '(', ')','`'); 
+        //$sValues 	= array('\&',   '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
               
-		return str_replace($sKeys, $sValues , $str); 
+		return str_replace('\'', '\'\'' , $str); 
 		 
 		   
 	 }
@@ -505,10 +505,10 @@ public static function dx($v){
 			    
 			   if(count($arr)!=$i){
 					$keys .= $k.', ';
-					$values .= '"'.self::escapeTags($v).'", ';
+					$values .= '\''.self::escapeTags($v).'\', ';
 				}else{
 					$keys .= $k.')';
-					$values .= '"'.self::escapeTags($v).'")';
+					$values .= '\''.self::escapeTags($v).'\')';
 				}
 				 
 				$i++;
@@ -525,10 +525,10 @@ public static function dx($v){
 					
 				   if(count($arr)!=$i){
 						$sql .= $k.'= ';
-						$sql .= '"'.self::escapeTags($v).'", ';
+						$sql .= '\''.self::escapeTags($v).'\', ';
 					}else{
 						$sql .= $k.'= ';
-						$sql .= '"'.self::escapeTags($v).'" ';
+						$sql .= '\''.self::escapeTags($v).'\' ';
 					}
 					
 					$i++;
