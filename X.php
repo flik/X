@@ -49,6 +49,16 @@
 				
 	}
 	
+	//get array to json
+	public static function getJson($arr=''){
+		 return json_encode($arr);
+	}
+	
+	//get array to Object
+	public static function getObject($arr=''){
+		return json_decode(json_encode($arr));
+	}
+	 
 	 ///////////////////////////////////////////////////////////////////////////////
 	 public static function setup($constr, $user, $pass, $debugConfig=0) {
 		 try {
