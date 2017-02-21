@@ -12,13 +12,8 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "url": "https://github.com/flik/X.git",
-            "type": "git"
-        }
-    ],
     "require": {
-         "xorm/xorm": "master"
-    }
+         "php": ">=5.4.0"
+    },
+    "minimum-stability": "dev"
 }
