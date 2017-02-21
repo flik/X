@@ -1,50 +1,61 @@
 # XORM
 //https://packagist.org/packages/xorm/xorm
 
-require '/X.php';
+## Installation
+You can install this package via Composer by running this command in your terminal in the root of your project:
+```bash
+composer require xorm/xorm:dev-master
+
+use X as X; // Load class with composer  at the top of file 
+// or 
+require '/X.php'; // Load direct without composer at the top of file 
+
+```
+
 
 # SETUP DATABASE
-X::setup( 'mysql:host=localhost;dbname=mydb',  $username ,  $password  );
+```bash 
+X::setup( 'mysql:host=localhost;dbname=mydb',  'username' ,  'password'  );
+```
 
 # SETUP TABLE FOR ADD / UPDATE / DELETE
+```bash
 X::manage('users'); 
-
 //$dbc['id'] = 1;
-
 $dbc['title'] = 'test title';
-
 X::save($dbc); //for save and update
-
+```
 # REMOVE RECORD BY ID. 
+```bash
 //It will find you primery coulumn auto and delete record. It does't matter primery column is id or bid.
-
 X::delete('users' ,12);
+```
 
 # GET ALL BY CUSTOM QUERY
+```bash
 $sql = 'SELECT xdata FROM `users` WHERE 1 ';
-
 $rec = X::getAll( $sql );
-
+```
 
 # GET RECORD BY ID. 
+```bash
 //It will find you primery coulumn auto and show record
-
 $rec = X::load('users' ,12 );
-
 X::debug($rec);
-
+```
 
 #EMPTY TABLE
-
+```bash
  X::emptyX('users');
-
+```
 #REMOVE TABLE
-
+```bash
  X::drop('users');
+ ```
  
 # FULL DETAIL
+```bash
 // setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
-
 X::setup( 'mysql:host=localhost;dbname=st_mysite', 'root', 'm' ,1);
 
 /*
@@ -96,6 +107,7 @@ $data = X::paginate(20,5);
 //$data = X::whereOr('Mandatory','=',0); //It IS FOR OR CONDITION
 
 //$data = X::where(1); //IT WILL RETURN WHOLE TABLE DATA
+```
 
 //$data = X::where(); //IT WILL RETURN WHOLE TABLE DATA
 
