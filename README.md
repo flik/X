@@ -6,9 +6,9 @@ You can install this package via Composer by running this command in your termin
 ```bash
 composer require xorm/xorm:dev-master
 
-use X as X; // Load class with composer  at the top of file 
+use X as X; // Load class with composer  at the top of the file 
 // or 
-require '/X.php'; // Load direct without composer at the top of file 
+require '/X.php'; // Load direct without composer at the top of the file 
 
 ```
 
