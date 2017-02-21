@@ -12,6 +12,9 @@
             "role": "Developer"
         }
     ],
+    "autoload": {
+        "files": ["X.php"]
+    },
     "require": {
          "php": ">=5.4.0"
     },
