@@ -8,17 +8,15 @@
         {
             "name": "Mohammad Ashfaq",
             "email": "ashfaqzp@gmail.com",
-            "homepage": "http://www.cometobiz.com",
+            "homepage": "https://www.linkedin.com/in/mohammad-ashfaq-09097417/",
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "url": "https://github.com/flik/X.git",
-            "type": "git"
-        }
-    ],
+    "autoload": {
+        "files": ["X.php"]
+    },
     "require": {
-         "xorm/xorm": "master"
-    }
+         "php": ">=5.4.0"
+    },
+    "minimum-stability": "dev"
 }
