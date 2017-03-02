@@ -11,6 +11,9 @@ use X as X; // Load class with composer  at the top of the file
 require '/X.php'; // Load direct without composer at the top of the file 
 
 ```
+Composer detail:
+
+http://rapidsol.blogspot.com/2015/03/download-composerphar.html
 
 
 # SETUP DATABASE
