@@ -23,10 +23,10 @@
 
     function __destruct()
     {
-        $this->clear();
+        self::clear();
     }
 	
-	public function clear(){
+	public static function clear(){
 		
 		self::$conn = null;
 		self::$db = null ;
@@ -35,6 +35,9 @@
 		self::$whereStr = null;
 		self::$whereOrStr = null;
 		self::$debugConfig = null ;
+		self::$orderByStr = null;
+		self::$groupByStr = null;
+		self::$limitStr = null;
 				
 	}
 	
@@ -45,6 +48,9 @@
 		self::$selectStr = null ;
 		self::$whereStr = null;
 		self::$whereOrStr = null;
+		self::$orderByStr = null;
+		self::$groupByStr = null;
+		self::$limitStr = null;
 		 
 				
 	}
@@ -62,6 +68,7 @@
 	 ///////////////////////////////////////////////////////////////////////////////
 	 public static function setup($constr, $user, $pass, $debugConfig=0) {
 		 try {
+			 self::clear();
 			 self::$debugConfig = $debugConfig;
 			$conn = new PDO($constr, $user, $pass);
 			// set the PDO error mode to exception
@@ -350,8 +357,14 @@ public static function dx($v){
 			}
 	  }
 	 
-	  public static function paginate($length = 10,$current_page=0 ){
-		$data = self::getResults() ;
+	 
+	  public static function paginateByArray($length = 10,$current_page=0, $data='' ){
+		
+		try{
+			
+		  if(empty($data))
+		    $data = self::getResults() ;
+		  
 		$result = array();
 		$start = 0;
 		if($current_page >=1)
@@ -386,6 +399,69 @@ public static function dx($v){
 		}
 		
         return $result;
+        }
+			catch(PDOException $e)
+			{ 
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . '<hr>' . $e->getMessage().'<hr>';
+			}
+        
+	  }
+	  
+	  public static function paginate($length = 10, $current_page=0 ){
+		  
+		try{  
+				
+				$total_items = self::getAll('select count(*) as total from '.self::$tbl); 
+				 
+				$total_items = $total_items[0]['total'];
+				$result = array();
+				$start 	= 0;
+				$end	= $length;
+				 
+				 
+				if($current_page > 1){
+					$start =  ($length  * $current_page)-$length; 
+					//$end = ($length  * $current_page)+$length; 
+				}
+				
+				self::limit($start, $length );
+				
+				$data = self::getResults() ;
+				 
+				
+				if(!empty($total_items)){ 
+					
+					if($total_items > $length)
+						$total_pages = $total_items / $length ;
+					else
+						$total_pages = 1;
+					
+					$previous_link = '';
+					if($total_items > $length ){
+						$next_link = 'page='.($current_page+1);
+						if($current_page > 1)
+							$previous_link = 'page='.($current_page-1);
+					}else{
+						$next_link = '';
+						$previous_link = '';
+					}
+					 
+					$result['pagination']['total_items'] = $total_items ;
+					$result['pagination']['total_pages'] = intval($total_pages);
+					$result['pagination']['current_page'] = $current_page;
+					$result['pagination']['length'] = $length;
+					$result['pagination']['previous_link'] = $previous_link;
+					$result['pagination']['next_link'] = $next_link;
+					$result['pagination']['start'] = $start;
+					$result['items'] =  $data ;
+				}
+				
+				return $result;
+			}
+			catch(PDOException $e)
+			{ 
+				echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . '<hr>' . $e->getMessage().'<hr>';
+			}
         
 	  }
 	   
