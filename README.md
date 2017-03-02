@@ -1,5 +1,4 @@
 # XORM
-//https://packagist.org/packages/xorm/xorm
 
 ## Installation
 You can install this package via Composer by running this command in your terminal in the root of your project:
@@ -113,4 +112,7 @@ $data = X::paginate(20,5);
 ```
 
 //$data = X::where(); //IT WILL RETURN WHOLE TABLE DATA
+
+//
+//https://packagist.org/packages/xorm/xorm
 
