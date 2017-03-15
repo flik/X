@@ -186,7 +186,7 @@ public static function dx($v){
 	 }
 	 
 	 public static function escapeTags($str){
-		 return $str;
+		// return $str;
 		//$sKeys 		= array('&',   '\'', '<', '>'  ,'%', '#', '?', '(', ')','`'); 
         //$sValues 	= array('\&',   '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
               
