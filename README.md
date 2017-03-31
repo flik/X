@@ -46,14 +46,28 @@ $rec = X::load('users' ,12 );
 X::debug($rec);
 ```
 
-#EMPTY TABLE
+ # PAGINATION
+```bash
+//paginate($length = 20, $current_page=5 )
+$data = X::paginate(20,5);
+ ```
+ 
+# EMPTY TABLE
 ```bash
  X::emptyX('users');
 ```
-#REMOVE TABLE
+# REMOVE TABLE
 ```bash
  X::drop('users');
  ```
+ 
+ # EXPORT CSV 
+```bash
+X::download_send_headers("data_CSV_export_" . date("Y-m-d") . ".csv");
+echo X::array2csv($data);
+ ```
+ 
+ 
  
 # FULL DETAIL
 ```bash
