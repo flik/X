@@ -1,6 +1,6 @@
 <?php
 
- class X
+class X
 {
 	
 	public static $conn ;
@@ -98,7 +98,22 @@ public static function array2csv(array &$array)
 	public static function getObject($arr=''){
 		return json_decode(json_encode($arr));
 	}
-	 
+
+		 
+	 ///////////////////////////////////////////////////////////////////////////////
+	 public static function xmltoArray($xmlStr) {
+		 try {
+			$xml = simplexml_load_string($xmlStr);
+                        $json = json_encode($xml);
+                        $array = json_decode($json,TRUE); 
+			return $array;
+			}
+		catch(Exception $e)
+			{
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span></hr> '." Connection failed: " . $e->getMessage();
+			}
+		 
+	 }
 	 ///////////////////////////////////////////////////////////////////////////////
 	 public static function setup($constr, $user, $pass, $debugConfig=0) {
 		 try {
