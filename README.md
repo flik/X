@@ -67,6 +67,11 @@ X::download_send_headers("data_CSV_export_" . date("Y-m-d") . ".csv");
 echo X::array2csv($data);
  ```
  
+  #  xml to Array 
+```bash
+$dataArray = X::xmltoArray($xmlstr);
+ 
+ ```
  
  
 # FULL DETAIL
