@@ -173,7 +173,24 @@ public static function dx($v){
    echo ' </span><span style="color:blue;">*****</span> </hr>';
 }
 
-
+ public static function exec_sql($sql) {
+		 
+		try{ 
+			$arr = explode(' ',trim($sql));
+			if(isset( $arr[0])){
+				 if(strtolower($arr[0])=='select' ){
+					 return self::getAll($sql);
+				 }else
+					return self::$conn->exec($sql); 
+			} 
+			
+		}
+		catch(PDOException $e)
+		{ 
+			echo '<span style="color:red;">Line #'.__LINE__.' (/X.php) </span> '.$sql . "</hr>" . $e->getMessage();
+		}
+		/**/
+ 	 }
 		
 	 public static function load($tbl,$id='') { 
 		 $pid = self::getPrimeryKey($tbl);
