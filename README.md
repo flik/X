@@ -39,6 +39,12 @@ $sql = 'SELECT xdata FROM `users` WHERE 1 ';
 $rec = X::getAll( $sql );
 ```
 
+# EXECUTE ALL QUERIES
+```bash
+$sql = 'SELECT xdata FROM `users` WHERE 1 ';
+$rec = X::exec_sql( $sql ); //SELECT, UPDATE, DELETE, ETC..
+```
+
 # GET RECORD BY ID. 
 ```bash
 //It will find you primery coulumn auto and show record
@@ -128,10 +134,10 @@ $data = X::paginate(20,5);
 //$data = X::whereOr('Mandatory','=',0); //It IS FOR OR CONDITION
 
 //$data = X::where(1); //IT WILL RETURN WHOLE TABLE DATA
-```
+
 
 //$data = X::where(); //IT WILL RETURN WHOLE TABLE DATA
-
+```
 //
 //https://packagist.org/packages/xorm/xorm
 
