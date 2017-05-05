@@ -178,7 +178,7 @@ public static function dx($v){
 		try{ 
 			$arr = explode(' ',trim($sql));
 			if(isset( $arr[0])){
-				 if(strtolower($arr[0])=='select' ){
+				 if(strtolower($arr[0])=='select' || strtolower($arr[0])=='describe' ){
 					 return self::getAll($sql);
 				 }else
 					return self::$conn->exec($sql); 
