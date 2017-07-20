@@ -256,7 +256,7 @@ public static function dx($v){
 		//$sKeys 		= array('&',   '\'', '<', '>'  ,'%', '#', '?', '(', ')','`'); 
         //$sValues 	= array('\&',   '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
               
-		return str_replace('\'', '\'\'' , $str); 
+		return str_replace("\'", "\'" , $str); 
 		 
 		   
 	 }
