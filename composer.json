@@ -16,7 +16,8 @@
         "files": ["X.php"]
     },
     "require": {
-         "php": ">=5.4.0"
+         "php": ">=5.4.0",
+         "xorm/xorm": "dev-master"
     },
     "minimum-stability": "dev"
 }
