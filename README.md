@@ -52,6 +52,17 @@ $rec = X::load('users' ,12 );
 X::debug($rec);
 ```
 
+# GET ALL RELATED RECORDS BY TABLE NAME AND ID OR WITHOUT ID. 
+```bash
+//It will find you primery coulumn auto and show record
+X::setRecursive(1);
+$rec = X::load('users' ,12 );
+X::debug($rec);
+
+$rec = X::load('users' );
+X::debug($rec);
+```
+
  # PAGINATION
 ```bash
 //paginate($length = 20, $current_page=5 )
@@ -138,6 +149,6 @@ $data = X::paginate(20,5);
 
 //$data = X::where(); //IT WILL RETURN WHOLE TABLE DATA
 ```
-//
+----- 
 //https://packagist.org/packages/xorm/xorm
 
