@@ -18,7 +18,6 @@
     },
     "require": {
          "php": ">=5.4.0",
-         "xorm/xorm": "dev-master",
-         "vendor/package": "1.0.0",
+         "vendor/package": "1.0.0"
     }
 }
