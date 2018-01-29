@@ -2,7 +2,6 @@
     "name": "xorm/xorm",
     "description": "It is simple orm solution in php",
     "keywords": ["orm","xorm"],
-    "type": "xorm-package",
     "homepage": "https://github.com/flik/X.git",
     "license": "MIT",
     "authors": [
@@ -18,6 +17,6 @@
     },
     "require": {
          "php": ">=5.4.0",
-         "vendor/package": "1.0.0"
+         "xorm/xorm": "dev-master"
     }
 }
