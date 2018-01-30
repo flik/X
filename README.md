@@ -54,8 +54,13 @@ X::debug($rec);
 
 # GET ALL RELATED RECORDS BY TABLE NAME AND ID OR WITHOUT ID. 
 ```bash
-//It will find you primery coulumn auto and show record
+//It will return mixed data with auto joins
 X::setRecursive(1);
+$rec = X::load('users' ,12 );
+X::debug($rec);
+
+//It will return all related data in clasified way
+X::setRecursive(2);
 $rec = X::load('users' ,12 );
 X::debug($rec);
 
