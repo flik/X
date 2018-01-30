@@ -136,10 +136,58 @@ class X
      */
     public static function getRelationSchema($tbl)
     {
-        $sql = " SELECT CONCAT( `CONSTRAINT_SCHEMA`, '.', table_name, '.', column_name ) AS 'foreignKey', CONCAT( `REFERENCED_TABLE_SCHEMA`, '.', referenced_table_name, '.', referenced_column_name ) AS 'references', CONCAT( `REFERENCED_TABLE_SCHEMA`, '.',referenced_table_name) AS tableName, constraint_name AS 'constraintName', REFERENCED_TABLE_SCHEMA AS dbName FROM information_schema.key_column_usage WHERE `TABLE_NAME` = '$tbl' ";
+        $sql = " SELECT CONCAT( `CONSTRAINT_SCHEMA`, '.', table_name, '.', column_name ) AS 'foreignKey',column_name as foreignKeySimple, CONCAT( `REFERENCED_TABLE_SCHEMA`, '.', referenced_table_name, '.', referenced_column_name ) AS 'references', CONCAT( `REFERENCED_TABLE_SCHEMA`, '.',referenced_table_name) AS tableName, constraint_name AS 'constraintName', REFERENCED_TABLE_SCHEMA AS dbName FROM information_schema.key_column_usage WHERE `TABLE_NAME` = '$tbl' ";
         return self::getAll($sql);
     }
 
+    /*
+     * Ge the relational data each in array form;
+     * @paramm $tbl table name
+     * return sql for related data
+     */
+    public static function getRelatedDataEach($tbl, $id = '')
+    {
+        self::$recursive= 0;
+        $results = self::getRelationSchema($tbl);
+        $relatedTables = $data = $endData = $primeries = array();
+         
+        if (count($results) >= 1) {
+            foreach ($results as $i => $v) {
+                if (! empty($v['foreignKey']) && ! empty($v['references'])) {
+                    
+                    $relatedTables[$v['foreignKeySimple']] = self::load($v['tableName']);
+                    $pid = self::getPrimeryKey($v['tableName']);
+                    $primeries[$v['foreignKeySimple']] = $pid;
+                }
+            }
+        }
+
+        //setting index as primary id
+        foreach ($relatedTables as $j=>$k){ 
+            foreach ($k as $i=>$v){ 
+                $data[$j][$v[$primeries[$j]]] = $v; 
+            }
+            
+        } 
+        
+        //loading main table in array
+        $endData = self::load($tbl, $id);
+        foreach($endData as $i=>$v){
+            foreach($v as $x=>$z){
+                if(array_key_exists($x, $data)) {
+                    if(array_key_exists($z, $data[$x])) {
+                        $v[$x.'_X'] = $data[$x][$v[$x]];
+                        $endData[$i] = $v;
+                    }
+                    
+                    
+                }
+            }
+        }
+          
+        return $endData;
+    }
+     
     /*
      * Ge the relational data query for fetch related data;
      * @paramm $tbl table name
@@ -180,6 +228,10 @@ class X
 
     public static function load($tbl, $id = '')
     {
+        if (self::$recursive==2) {
+            return self::getRelatedDataEach($tbl, $id);
+        }
+        
         $pid = self::getPrimeryKey($tbl);
         
         try {
@@ -195,7 +247,7 @@ class X
                 self::dx($sql);
                 
             // recursive query
-            if (self::$recursive) {
+            if (self::$recursive==1) {
                 $response = self::getRelatedDataQuery($tbl, $id);
                 $sql = $response['sql'];
             }
@@ -206,7 +258,7 @@ class X
             // set the resulting array to associative
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
-            if (self::$recursive) {
+            if (self::$recursive==2) {
                 /*
                 foreach($response['tables'] as $i=>$r) {
                     
