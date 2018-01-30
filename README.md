@@ -101,6 +101,51 @@ $dataArray = X::xmltoArray($xmlstr);
 // setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
 X::setup( 'mysql:host=localhost;dbname=st_mysite', 'root', 'm' ,1);
 
+[on hold]
+Ask Question
+up vote
+-2
+down vote
+favorite
+	
+
+Here is example database structure for the problem. I have 2 tables in db1 and 1 table in db2. I have cross joins.
+
+relation detail: db1
+
+CREATE TABLE `albums` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `artist` varchar(100) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `customer_id` (`customer_id`),
+  CONSTRAINT `FK_AlbumsCustomers` FOREIGN KEY (`customer_id`) REFERENCES `db2`.`customers` (`id`),
+  CONSTRAINT `FK_AlbumsUsers` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `data1` varchar(111) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1
+
+-----------------------------------------------------
+**db2.** 
+CREATE TABLE `customers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `state` varchar(50) DEFAULT NULL,
+  `zip` varchar(15) DEFAULT NULL,
+  `country` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=169 DEFAULT CHARSET=latin1.
+
 /*
 CREATE TABLE IF NOT EXISTS `AppVersion` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
