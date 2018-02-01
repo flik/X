@@ -17,9 +17,9 @@ http://rapidsol.blogspot.com/2015/03/download-composerphar.html
 
 # SETUP DATABASE
 ```bash 
-X::setup( 'mysql:host=localhost;dbname=mydb',  'username' ,  'password'  );
+X::setup( 'mysql:host=localhost;dbname=mydb',  'username' ,  'password' ,0 );
 ```
-
+//last param is just for debug all sql queries. 0 mean no sql queries and 1 mean display all sql queries.
 # SETUP TABLE FOR ADD / UPDATE / DELETE
 ```bash
 X::manage('users'); 
