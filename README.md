@@ -17,9 +17,9 @@ http://rapidsol.blogspot.com/2015/03/download-composerphar.html
 
 # SETUP DATABASE
 ```bash 
+// setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
 X::setup( 'mysql:host=localhost;dbname=mydb',  'username' ,  'password' ,0 );
 ```
-//last param is just for debug all sql queries. 0 mean no sql queries and 1 mean display all sql queries.
 # SETUP TABLE FOR ADD / UPDATE / DELETE
 ```bash
 X::manage('users'); 
@@ -100,14 +100,6 @@ $dataArray = X::xmltoArray($xmlstr);
 ```bash
 // setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
 X::setup( 'mysql:host=localhost;dbname=st_mysite', 'root', 'm' ,1);
-
-[on hold]
-Ask Question
-up vote
--2
-down vote
-favorite
-	
 
 Here is example database structure for the problem. I have 2 tables in db1 and 1 table in db2. I have cross joins.
 
