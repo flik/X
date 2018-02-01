@@ -101,7 +101,7 @@ $dataArray = X::xmltoArray($xmlstr);
 // setup($constr, $user, $pass, $debugConfig=0) $debugConfig 1 will show all queries before result
 X::setup( 'mysql:host=localhost;dbname=st_mysite', 'root', 'm' ,1);
 
-Here is example database structure for the problem. I have 2 tables in db1 and 1 table in db2. I have cross joins.
+Here is example database structure. I have 2 tables in db1 and 1 table in db2. I have cross joins.
 
 relation detail: db1
 
