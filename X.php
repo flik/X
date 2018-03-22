@@ -309,12 +309,21 @@ class X
         }
     }
 
+/*
+ * alternate of mysql_real_escape_string
+ * */
+
+	public static function escapeStr($value)
+	{
+		$search = array("\\",  "\x00", "\n",  "\r",  "'",  '"', "\x1a");
+		$replace = array("\\\\","\\0","\\n", "\\r", "\'", '\"', "\\Z");
+
+		return str_replace($search, $replace, $value);
+	}
+	
     public static function escapeTags($str)
     {
-        //return $str;
-        // $sKeys = array('&', '\'', '<', '>' ,'%', '#', '?', '(', ')','`');
-        // $sValues = array('\&', '\'', '\<', '\>', '\%', '\#', '\?', '\(', '\)','\`');
-        return str_replace("'", "''", $str);
+		return self::escapeStr( $str ); 
     }
 
     public static function emptyX($tbl = '')
